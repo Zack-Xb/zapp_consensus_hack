@@ -7,6 +7,7 @@ import { PaperProvider } from 'react-native-paper';
 import ImageViewer from './src/components/ImageViewer';
 import CtaButton from './src/components/buttons/CTA';
 import { useState } from 'react';
+import Wallet from './src/views/Wallet';
 
 export default function App() {
   const [open, setOpen] = useState(false);
@@ -33,6 +34,7 @@ export default function App() {
         <View style={styles.container}>
           <ChoiceModal />
           <ImageViewer src={'https://docs.expo.dev/static/images/tutorial/background-image.png'} />
+          <Wallet />
           <Text style={styles.text}>Zapp the fees away!</Text>
           <CtaButton label='Get Started' setOpen={setOpen} choice={true} />
           <StatusBar style="light" />
