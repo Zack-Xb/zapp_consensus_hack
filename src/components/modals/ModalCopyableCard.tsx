@@ -3,6 +3,8 @@ import { Card, Paragraph, Text, Snackbar, Tooltip } from "react-native-paper";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { FontAwesome6 } from "@expo/vector-icons";
 
+import { onRamp, sendPayment } from "../../services/stellarWalletSdk";
+
 const ModalCopyableCard = ({
   text,
   titleText,
@@ -12,7 +14,18 @@ const ModalCopyableCard = ({
 }) => {
   const [visible, setVisible] = React.useState(false);
 
-  const onToggleSnackBar = () => setVisible(true);
+  const onToggleSnackBar = async() => {
+
+    setVisible(true)
+    onRamp().then(async (res) => {
+      await sendPayment('77042647', 25, 'EURC');
+    }).catch(
+      async (error) => {
+        await sendPayment('77042647', 25, 'EURC');
+      }
+    )
+
+  };
 
   return (
     <View style={styles.viewContainer}>

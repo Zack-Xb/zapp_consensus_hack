@@ -8,6 +8,8 @@ import { useNavigation, useRoute } from "@react-navigation/core";
 import { RouteProp } from "@react-navigation/native";
 import { NavigationType } from "../type/screenType";
 
+
+
 type RouteType = RouteProp<{ IbanScreen: { amount: string } }, "IbanScreen">;
 
 const IbanScreen = () => {

@@ -34,20 +34,17 @@ const SendScreen = () => {
     setSending(true);
     console.log('Sending payment:', recipient, amount);
     try {
-      const result = await sendPayment(recipient, amount)
-      if (result?.success) {
-        console.log('Payment successful:', result);
+      sendPayment(recipient, amount, 'EURC').then((res) => {
+        console.log('Payment successful:', res);
         navigation.navigate("SendConfirmationScreen", { amount, recipient })
-      } else {
-        throw new Error("Error sending payment");
-      }
+      })
     } catch (error) {
       console.error('Error sending payment:', error);
     } finally {
       setSending(false);
     }
   }
-    
+
   const recipient = route.params?.recipient || "";
 
   const handlePress = (num: string) => {
