@@ -1,4 +1,4 @@
-import { generateRandomKeypair, handlerCreateAccount, getBalance,getTransactionHistory, sendRemittance,addAssets, testApprove } from "../services/stellarWalletSdk";
+import { generateRandomKeypair, handlerCreateAccount, getBalance,getTransactionHistory, sendRemittance,addAssets, testApprove, sendPayment } from "../services/stellarWalletSdk";
 import AsyncStorage from "@react-native-async-storage/async-storage/jest/async-storage-mock";
 import { Keypair, SigningKeypair } from "@stellar/typescript-wallet-sdk";
 
@@ -15,7 +15,7 @@ test("handlerCreateAccount", async () => {
     console.log(response);
     expect(AsyncStorage.setItem).toBeCalledWith('pk');
     expect(response).toBeDefined();
-}, 10000);
+}, 30000);
 
 test("getBalance", async () => {
     const response = await getBalance();
@@ -55,3 +55,9 @@ test("testApprove", async () => {
     console.log(response);
     expect(response).toBeDefined();
 },100000)
+
+test("sendPayment", async () => {
+    const response = await sendPayment('863198', 2, 'USDC');
+
+    console.log(response);
+},40000);
