@@ -40,12 +40,8 @@ const IbanScreen = () => {
                 text="Germany"
               />
               <ModalCopyableCard
-                titleText="Account Number"
-                text="87653151"
-              />
-              <ModalCopyableCard
-                titleText="Routing Number"
-                text="778899"
+                titleText="SWIFT Code"
+                text="ZAPPAWAY"
               />
               <Text style={styles.sub2Text}>
                 Company Name:{" "}
@@ -86,7 +82,8 @@ const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
     backgroundColor: "black",
-    marginBottom: 20,
+    marginTop: 40,
+    marginBottom: 150,
   },
   titleText: {
     color: "white",
