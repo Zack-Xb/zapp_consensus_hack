@@ -25,8 +25,8 @@ export const BalanceProvider = ({ children }: BalanceProviderProps) => {
 
   const loadBalance = useCallback(async () => {
     setIsLoading(true);
-    // wait 3 secs
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    // wait 1 sec (just to show loading, remove in production)
+    await new Promise(resolve => setTimeout(resolve, 1000));
     try {
       const usdcBalance = await getBalance('USDC');
       if (!usdcBalance) {

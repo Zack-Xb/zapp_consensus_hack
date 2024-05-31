@@ -211,8 +211,9 @@ export async function getTransactionHistory(){
   }
   }
 
-  export async function sendPayment(phone: string, amount: number){
-    const recipient = '';
+export async function sendPayment(phone: string, amount: number) {
+    // the recipient will be fetch from database later on, locating the registered address corresponding to the phone number
+    const recipient = ENV_PUBLIC_ADDRESS;
   
     // get Key - Later
     // get Address - Later
@@ -302,7 +303,7 @@ export async function getTransactionHistory(){
           let transactionMeta = getResponse.resultMetaXdr;
           let returnValue = transactionMeta.v3().sorobanMeta()?.returnValue();
           console.log(`Transaction result: ${returnValue?.value()}`);
-          return returnValue?.value();
+          return { success: true}
         } else {
           throw `Transaction failed: ${getResponse.resultXdr.toString()}`;
         }

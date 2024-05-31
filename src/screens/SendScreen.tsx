@@ -12,6 +12,7 @@ import { useNavigation, useRoute } from "@react-navigation/core";
 import { NavigationType } from "../type/screenType";
 import { RouteProp } from "@react-navigation/native";
 import { useBalance } from "../context/BalanceContext";
+import { sendPayment } from "../services/stellarWalletSdk";
 
 type RouteType = RouteProp<{ SendScreen: { recipient: string } }, "SendScreen">;
 
@@ -21,12 +22,32 @@ const screenWidth = Dimensions.get("window").width;
 const SendScreen = () => {
   const [amount, setAmount] = useState<string>("");
   const [switchEnabled, setSwitchEnabled] = useState<boolean>(false);
+  const [sending, setSending] = useState(false);
   const {balance} = useBalance();
   const toggleSwitch = () =>
     setSwitchEnabled((previousState) => !previousState);
 
   const navigation = useNavigation<NavigationType>();
   const route = useRoute<RouteType>();
+
+  const handleSendPayment = async (recipient: any, amount: any) => {
+    setSending(true);
+    console.log('Sending payment:', recipient, amount);
+    try {
+      const result = await sendPayment(recipient, amount)
+      if (result?.success) {
+        console.log('Payment successful:', result);
+        navigation.navigate("SendConfirmationScreen", { amount, recipient })
+      } else {
+        throw new Error("Error sending payment");
+      }
+    } catch (error) {
+      console.error('Error sending payment:', error);
+    } finally {
+      setSending(false);
+    }
+  }
+    
   const recipient = route.params?.recipient || "";
 
   const handlePress = (num: string) => {
@@ -81,12 +102,9 @@ const SendScreen = () => {
                       : "yellow"
                     : "white",
                 }}
-                onPress={() =>
+                onPress={async () =>
                   switchEnabled
-                    ? navigation.navigate("SendConfirmationScreen", {
-                        amount: amount,
-                        recipient: recipient,
-                      })
+                    ? await handleSendPayment(recipient, amount)
                     : navigation.navigate("IbanScreen", { amount: amount })
                 }
                 disabled={switchEnabled ? Number(balance) < Number(amount) : false}
