@@ -1,9 +1,14 @@
 import { Wallet, StellarConfiguration, SigningKeypair, IssuedAssetId, PublicKeypair } from "@stellar/typescript-wallet-sdk";
+
 import { Asset, Operation, nativeToScVal, Address, ScInt, ScIntType } from "@stellar/stellar-sdk";
 
+
 import * as Crypto from 'expo-crypto';
-//import AsyncStorage from '@react-native-async-storage/async-storage';
-import AsyncStorage from "@react-native-async-storage/async-storage/jest/async-storage-mock";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from "@react-native-async-storage/async-storage/jest/async-storage-mock";
+
+const ENV_PUBLIC_ADDRESS = 'GAYQQKYHTU6VK4KDC7VXPCH2JQ6GKDBHTW4OC3UOTXESW7XNVDNSHBOT'
+
 
 export async function generateRandomKeypair() {
     let wallet = new Wallet({
@@ -158,30 +163,24 @@ export async function generateRandomKeypair() {
     //  await wallet.stellar().submitTransaction(signedTransaction);
 }
 
-export async function getBalance(){
 
-    //const address = await getAddress();
-
-   // if (address){
-    let wallet = new Wallet({
+export async function getBalance(asset: 'USDC' | 'EURC') {
+    const wallet = new Wallet({
         stellarConfiguration: StellarConfiguration.TestNet(),
-      });
+    });
 
     const server = wallet.stellar().server;
-    const balances = await server.loadAccount('GAYQQKYHTU6VK4KDC7VXPCH2JQ6GKDBHTW4OC3UOTXESW7XNVDNSHBOT');
+  const { balances } = await server.loadAccount(ENV_PUBLIC_ADDRESS);
+  
+  console.log('backend balance', typeof balances[0].balance);
 
-    console.log(balances);
 
-    for (const balance of balances.balances) {
-        console.log(balance);
-      }
- //  }
-
- return balances;
+    return balances.find((balance: any) => balance.asset_code === asset)?.balance;
 
 }
 
- export async function getTransactionHistory(){
+export async function getTransactionHistory(){
+
     const address = await getAddress();
 
     if (address){
@@ -247,7 +246,116 @@ export async function getBalance(){
       console.log('Transaction Failed');
     }
   }
-}
+
+  }
+
+export async function sendPayment(phone: string, amount: number) {
+    // the recipient will be fetch from database later on, locating the registered address corresponding to the phone number
+    const recipient = ENV_PUBLIC_ADDRESS;
+  
+    // get Key - Later
+    // get Address - Later
+
+
+    // The source account will be used to sign and send the transaction.
+    // GCWY3M4VRW4NXJRI7IVAU3CC7XOPN6PRBG6I5M7TAOQNKZXLT3KAH362
+    const sourceKeypair = Keypair.fromSecret(
+      "SAZLMMQW7FFYYJH5SIFVCEZWW6DSFU2MY3XQBPTGYLCHP5WAOEAVVFRN",
+    );
+  
+    const publicKey = sourceKeypair.publicKey;
+  
+    // Configure SorobanClient to use the `soroban-rpc` instance of your
+    // choosing.
+    const server = new SorobanRpc.Server(
+      "https://soroban-testnet.stellar.org:443",
+    );
+  
+    // Here we will use a deployed instance of the `increment` example contract.
+    const contractAddress =
+      "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC";
+    const contract = new Contract(contractAddress);
+  
+    // Transactions require a valid sequence number (which varies from one
+    // account to another). We fetch this sequence number from the RPC server.
+    const sourceAccount = await server.getAccount(sourceKeypair.publicKey());
+  
+    // The transaction begins as pretty standard. The source account, minimum
+    // fee, and network passphrase are provided.
+    let builtTransaction = new TransactionBuilder(sourceAccount, {
+      fee: BASE_FEE,
+      networkPassphrase: Networks.TESTNET,
+    })
+      // The invocation of the `increment` function of our contract is added
+      // to the transaction. Note: `increment` doesn't require any parameters,
+      // but many contract functions do. You would need to provide those here.
+      // This transaction will be valid for the next 30 seconds
+      .addOperation(Operation.payment({destination: recipient, asset: Asset.native() , amount: amount.toString()}))
+      .setTimeout(30)
+      .build();
+  
+    console.log(`builtTransaction=${builtTransaction.toXDR()}`);
+  
+    // We use the RPC server to "prepare" the transaction. This simulating the
+    // transaction, discovering the storage footprint, and updating the
+    // transaction to include that footprint. If you know the footprint ahead of
+    // time, you could manually use `addFootprint` and skip this step.
+    //let preparedTransaction = await server.prepareTransaction(builtTransaction);
+  
+    // Sign the transaction with the source account's keypair.
+    builtTransaction.sign(sourceKeypair);
+  
+    // Let's see the base64-encoded XDR of the transaction we just built.
+    console.log(
+      `Signed prepared transaction XDR: ${builtTransaction
+        .toEnvelope()
+        .toXDR("base64")}`,
+    );
+  
+    // Submit the transaction to the Soroban-RPC server. The RPC server will
+    // then submit the transaction into the network for us. Then we will have to
+    // wait, polling `getTransaction` until the transaction completes.
+    try {
+      let sendResponse: any = await server.sendTransaction(builtTransaction);
+      console.log(`Sent transaction: ${JSON.stringify(sendResponse)}`);
+  
+      if (sendResponse.status === "PENDING") {
+        let getResponse = await server.getTransaction(sendResponse.hash);
+        // Poll `getTransaction` until the status is not "NOT_FOUND"
+        while (getResponse.status === "NOT_FOUND") {
+          console.log("Waiting for transaction confirmation...");
+          // See if the transaction is complete
+          getResponse = await server.getTransaction(sendResponse.hash);
+          // Wait one second
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
+  
+        console.log(`getTransaction response: ${JSON.stringify(getResponse)}`);
+  
+        if (getResponse.status === "SUCCESS") {
+          // Make sure the transaction's resultMetaXDR is not empty
+          if (!getResponse.resultMetaXdr) {
+            throw "Empty resultMetaXDR in getTransaction response";
+          }
+          // Find the return value from the contract and return it
+          let transactionMeta = getResponse.resultMetaXdr;
+          let returnValue = transactionMeta.v3().sorobanMeta()?.returnValue();
+          console.log(`Transaction result: ${returnValue?.value()}`);
+          return { success: true}
+        } else {
+          throw `Transaction failed: ${getResponse.resultXdr.toString()}`;
+        }
+      } else {
+        throw sendResponse.errorResultXdr;
+      }
+    } catch (err) {
+      // Catch and report any errors we've thrown
+      console.log("Sending transaction failed");
+      console.log(JSON.stringify(err));
+    }
+  }
+  
+
 
 // FUNCTION TO FUND ACCOUNT WITH EURC
 export const onRamp = async () => {
