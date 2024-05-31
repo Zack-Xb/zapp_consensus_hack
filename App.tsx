@@ -2,7 +2,7 @@ import { useState } from "react";
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { BalanceContext } from "./src/context/BalanceContext";
+import {  BalanceProvider } from "./src/context/BalanceContext";
 
 // Components
 import Loading from "./src/screens/StartScreen";
@@ -17,11 +17,10 @@ import SendConfirmationScreen from "./src/screens/SendConfirmationScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [balance, setBalance] = useState(420);
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <BalanceContext.Provider value={{ balance, setBalance }}>
+    <BalanceProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Loading">
           <Stack.Screen
@@ -58,7 +57,7 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-    </BalanceContext.Provider>
+    </BalanceProvider>
     // <RootSiblingParent>
     //   <PaperProvider>
     //     <View style={styles.container}>

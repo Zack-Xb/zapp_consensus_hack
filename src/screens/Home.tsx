@@ -6,6 +6,8 @@ import {
   ImageBackground,
   Dimensions,
   TouchableOpacity,
+  ActivityIndicator,
+  Animated,
 } from "react-native";
 import {
   FontAwesome,
@@ -15,15 +17,44 @@ import {
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { NavigationType } from "../type/screenType";
-import { BalanceContext } from "../context/BalanceContext";
 import ReferFriend from "../components/card/ReferFriend";
 import TransactionHistory from "../components/card/TransactionHistory";
+import { useBalance } from "../context/BalanceContext";
 
 const screenWidth = Dimensions.get("window").width;
 
 export default function Home() {
-  const { balance, setBalance } = React.useContext(BalanceContext);
+  const { balance, loadBalance, isLoading } = useBalance();
   const navigation = useNavigation<NavigationType>();
+  const fadeAnim = React.useRef(new Animated.Value(0)).current;
+
+  React.useEffect(() => {
+    Animated.sequence([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true
+      }),
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(fadeAnim, {
+            toValue: 0.5,
+            duration: 500,
+            useNativeDriver: true
+          }),
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true
+          })
+        ])
+      )
+    ]).start();
+  }, []);
+
+  React.useEffect(() => {
+    loadBalance();  // Load balance on component mount
+  }, [loadBalance]);
 
   return (
     <View style={styles.container}>
@@ -57,9 +88,15 @@ export default function Home() {
         style={styles.imageBackground}
         resizeMode="contain"
       >
-        <View style={styles.balanceDiv}>
-          <Text style={styles.dollarSign}>$ </Text>
-          <Text style={styles.balanceText}>{Number(balance).toFixed(2)}</Text>
+      <View style={styles.balanceDiv}>
+          <Text style={styles.dollarSign}>$</Text>
+          {isLoading ? (
+            <Animated.View style={[styles.skeleton, {opacity: fadeAnim}]}>
+              <Text style={styles.skeletonText}>----</Text>
+            </Animated.View>
+          ) : (
+            <Text style={styles.balanceText}>{balance}</Text>
+          )}
         </View>
       </ImageBackground>
 
@@ -181,5 +218,13 @@ const styles = StyleSheet.create({
   imageBackground: {
     width: screenWidth,
     height: 200,
+  },
+  skeleton: {
+    backgroundColor: "#444", 
+    minWidth: 100, 
+  },
+  skeletonText: {
+    color: "#444", 
+    fontSize: 30, 
   },
 });
