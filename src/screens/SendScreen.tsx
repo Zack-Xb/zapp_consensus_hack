@@ -88,7 +88,7 @@ const SendScreen = () => {
         ) : null}
         <View style={styles.display}>
           <View style={styles.amountContainer}>
-            <Text style={styles.text}>$ {amount}</Text>
+            <Text style={styles.text}>€ {amount}</Text>
           </View>
           <View style={styles.iconContainer}>
             <TouchableOpacity>
@@ -120,7 +120,7 @@ const SendScreen = () => {
               bottom: 0.5,
             }}
           >
-            Account Balance: ${balance}
+            Account Balance: €{balance}
           </Text>
         ) : null}
       </View>

@@ -38,7 +38,7 @@ const SendConfirmationScreen = () => {
             <Dialog.Content>
               <Text style={styles.subText}>
                 Your transaction of{" "}
-                <Text style={{ fontWeight: "bold" }}>${amount}</Text> is
+                <Text style={{ fontWeight: "bold" }}>€{amount}</Text> is
                 currently on its way to {recipient}.
               </Text>
               <Ionicons

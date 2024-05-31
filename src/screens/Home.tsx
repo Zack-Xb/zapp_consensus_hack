@@ -33,27 +33,27 @@ export default function Home() {
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 500,
-        useNativeDriver: true
+        useNativeDriver: true,
       }),
       Animated.loop(
         Animated.sequence([
           Animated.timing(fadeAnim, {
             toValue: 0.5,
             duration: 500,
-            useNativeDriver: true
+            useNativeDriver: true,
           }),
           Animated.timing(fadeAnim, {
             toValue: 1,
             duration: 500,
-            useNativeDriver: true
-          })
+            useNativeDriver: true,
+          }),
         ])
-      )
+      ),
     ]).start();
   }, []);
 
   React.useEffect(() => {
-    loadBalance();  // Load balance on component mount
+    loadBalance(); // Load balance on component mount
   }, [loadBalance]);
 
   return (
@@ -88,10 +88,10 @@ export default function Home() {
         style={styles.imageBackground}
         resizeMode="contain"
       >
-      <View style={styles.balanceDiv}>
-          <Text style={styles.dollarSign}>$</Text>
+        <View style={styles.balanceDiv}>
+          <Text style={styles.dollarSign}>€</Text>
           {isLoading ? (
-            <Animated.View style={[styles.skeleton, {opacity: fadeAnim}]}>
+            <Animated.View style={[styles.skeleton, { opacity: fadeAnim }]}>
               <Text style={styles.skeletonText}>----</Text>
             </Animated.View>
           ) : (
@@ -220,11 +220,11 @@ const styles = StyleSheet.create({
     height: 200,
   },
   skeleton: {
-    backgroundColor: "#444", 
-    minWidth: 100, 
+    backgroundColor: "#444",
+    minWidth: 100,
   },
   skeletonText: {
-    color: "#444", 
-    fontSize: 30, 
+    color: "#444",
+    fontSize: 30,
   },
 });

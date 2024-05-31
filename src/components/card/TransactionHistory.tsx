@@ -64,7 +64,7 @@ const MyComponent = () => {
             </View>
           </DataTable.Cell>
           <DataTable.Cell numeric>
-            <Text style={styles.genericText}>${item.amount}</Text>
+            <Text style={styles.genericText}>€{item.amount}</Text>
           </DataTable.Cell>
         </DataTable.Row>
       ))}

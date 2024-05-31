@@ -33,7 +33,7 @@ export default function Home() {
 
       {/* Balance Box */}
       <View style={styles.balanceDiv}>
-        <Text>${balance}</Text>
+        <Text>€{balance}</Text>
       </View>
 
       {/* This is a row that contains the 3 main functionalities: Top Up, Send, Receive*/}

@@ -33,7 +33,7 @@ const IbanScreen = () => {
               <Text style={styles.subText}>
                 Send a bank transfer to the details below to complete the
                 transaction of{" "}
-                <Text style={{ fontWeight: "bold" }}>${amount}</Text>.
+                <Text style={{ fontWeight: "bold" }}>€{amount}</Text>.
               </Text>
               <ModalCopyableCard
                 titleText="Nationality"
