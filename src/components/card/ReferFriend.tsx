@@ -3,7 +3,7 @@ import { Card, Text } from "react-native-paper";
 import { Image, StyleSheet, View } from "react-native";
 
 const ReferFriend = () => (
-  <Card style={{ backgroundColor: "green" }}>
+  <Card style={{ backgroundColor: "green", margin: 5 }}>
     <View style={styles.viewContainer}>
       <Image
         source={require("../../../assets/referral.png")}

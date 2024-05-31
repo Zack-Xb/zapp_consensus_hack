@@ -12,7 +12,10 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocalNetworkUsageDescription": "This app requires network access to connect with your local network."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -28,8 +31,6 @@
         "projectId": "4b1339f3-6713-4fc0-a0af-c8c55a8345da"
       }
     },
-    "plugins": [
-      "expo-router"
-    ]
+    "plugins": ["expo-router"]
   }
 }
