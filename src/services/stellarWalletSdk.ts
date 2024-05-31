@@ -1,10 +1,12 @@
 import { Wallet, StellarConfiguration, SigningKeypair, IssuedAssetId, PublicKeypair } from "@stellar/typescript-wallet-sdk";
+
 import { Asset, Operation, Keypair, Contract, SorobanRpc, TransactionBuilder, Networks, BASE_FEE } from "@stellar/stellar-sdk"
 import * as Crypto from 'expo-crypto';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import AsyncStorage from "@react-native-async-storage/async-storage/jest/async-storage-mock";
 
 const ENV_PUBLIC_ADDRESS = 'GAYQQKYHTU6VK4KDC7VXPCH2JQ6GKDBHTW4OC3UOTXESW7XNVDNSHBOT'
+
 
 export async function generateRandomKeypair() {
     let wallet = new Wallet({
@@ -130,6 +132,7 @@ async function handleCreateAccountWithSponsor() {
     //  await wallet.stellar().submitTransaction(signedTransaction);
 }
 
+
 export async function getBalance(asset: 'USDC' | 'EURC') {
     const wallet = new Wallet({
         stellarConfiguration: StellarConfiguration.TestNet(),
@@ -144,6 +147,7 @@ export async function getBalance(asset: 'USDC' | 'EURC') {
 }
 
 export async function getTransactionHistory(){
+
     const address = await getAddress();
 
     if (address){
@@ -209,6 +213,7 @@ export async function getTransactionHistory(){
       console.log('Transaction Failed');
     }
   }
+
   }
 
 export async function sendPayment(phone: string, amount: number) {
@@ -317,6 +322,7 @@ export async function sendPayment(phone: string, amount: number) {
     }
   }
   
+
 
 
   // Required Functionality
