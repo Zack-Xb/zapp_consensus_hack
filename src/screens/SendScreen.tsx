@@ -10,8 +10,8 @@ import {
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/core";
 import { NavigationType } from "../type/screenType";
-import { BalanceContext } from "../context/BalanceContext";
 import { RouteProp } from "@react-navigation/native";
+import { useBalance } from "../context/BalanceContext";
 
 type RouteType = RouteProp<{ SendScreen: { recipient: string } }, "SendScreen">;
 
@@ -21,7 +21,7 @@ const screenWidth = Dimensions.get("window").width;
 const SendScreen = () => {
   const [amount, setAmount] = useState<string>("");
   const [switchEnabled, setSwitchEnabled] = useState<boolean>(false);
-  const { balance, setBalance } = useContext(BalanceContext);
+  const {balance} = useBalance();
   const toggleSwitch = () =>
     setSwitchEnabled((previousState) => !previousState);
 
@@ -76,7 +76,7 @@ const SendScreen = () => {
                 style={{
                   ...styles.sendIcon,
                   color: switchEnabled
-                    ? balance < Number(amount)
+                    ? Number(balance) < Number(amount)
                       ? "grey"
                       : "yellow"
                     : "white",
@@ -89,7 +89,7 @@ const SendScreen = () => {
                       })
                     : navigation.navigate("IbanScreen", { amount: amount })
                 }
-                disabled={switchEnabled ? balance < Number(amount) : false}
+                disabled={switchEnabled ? Number(balance) < Number(amount) : false}
               />
             </TouchableOpacity>
           </View>
