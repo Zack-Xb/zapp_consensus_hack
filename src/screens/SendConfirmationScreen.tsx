@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Button, Dialog, Portal, PaperProvider } from "react-native-paper";
 import { useState } from "react";
-import ModalCopyableCard from "../components/modals/ModalCopyableCard";
+import { Ionicons } from "@expo/vector-icons";
 
 import { useNavigation, useRoute } from "@react-navigation/core";
 import { RouteProp } from "@react-navigation/native";
@@ -41,38 +41,19 @@ const SendConfirmationScreen = () => {
                 <Text style={{ fontWeight: "bold" }}>${amount}</Text> is
                 currently on its way to {recipient}.
               </Text>
-              <ModalCopyableCard
-                titleText="Nationality"
-                text="Germany"
+              <Ionicons
+                name="checkmark-circle-outline"
+                style={styles.icon}
               />
-              <ModalCopyableCard
-                titleText="Account Number"
-                text="87653151"
-              />
-              <ModalCopyableCard
-                titleText="Routing Number"
-                text="778899"
-              />
-              <Text style={styles.sub2Text}>
-                Company Name:{" "}
-                <Text style={styles.sub3Text}>Unlimit Crypto</Text>
-              </Text>
               <Text></Text>
             </Dialog.Content>
             <Dialog.Actions style={{ justifyContent: "space-evenly" }}>
               <Button
                 onPress={() => {
-                  navigation.goBack();
-                }}
-              >
-                Back
-              </Button>
-              <Button
-                onPress={() => {
                   navigation.navigate("Home");
                 }}
               >
-                Done
+                Back to Home
               </Button>
             </Dialog.Actions>
           </Dialog>
@@ -92,7 +73,9 @@ const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
     backgroundColor: "black",
-    marginBottom: 20,
+    marginBottom: 100,
+    marginTop: 40,
+    padding: 40,
   },
   titleText: {
     color: "white",
@@ -105,19 +88,12 @@ const styles = StyleSheet.create({
     textAlign: "left",
     justifyContent: "center",
   },
-  sub2Text: {
-    color: "white",
-    textAlign: "left",
-    fontSize: 10,
-    marginLeft: 10,
+  icon: {
+    color: "green",
+    fontSize: 120,
+    alignSelf: "center",
     justifyContent: "center",
-  },
-  sub3Text: {
-    color: "white",
-    textAlign: "left",
-    fontWeight: "bold",
-    fontSize: 10,
-    justifyContent: "center",
+    marginTop: 50,
   },
 });
 
