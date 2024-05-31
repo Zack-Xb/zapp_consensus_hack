@@ -2367,10 +2367,10 @@
   optionalDependencies:
     sodium-native "^4.0.10"
 
-"@stellar/stellar-base@^12.0.0-rc.1":
-  version "12.0.0-rc.1"
-  resolved "https://registry.npmjs.org/@stellar/stellar-base/-/stellar-base-12.0.0-rc.1.tgz"
-  integrity sha512-Nm2WeqAnhfsZ2ETTttIJy8epgxGb03EXmWkcmxhyRd0us0qz++i0ry/cSnWaNYDWKipZTuepITUc4nM7o/s1tA==
+"@stellar/stellar-base@^12.0.0":
+  version "12.0.0"
+  resolved "https://registry.npmjs.org/@stellar/stellar-base/-/stellar-base-12.0.0.tgz"
+  integrity sha512-uGpahDFFXbE39myOmBnEZSjVys4yUkQ/ASNuYENGyS8MNdfA0TS7DPWkiO6t17P+rW+FRV1zmumJtjRHwxxMdw==
   dependencies:
     "@stellar/js-xdr" "^3.1.1"
     base32.js "^0.1.0"
@@ -2394,13 +2394,13 @@
     toml "^3.0.0"
     urijs "^1.19.1"
 
-"@stellar/stellar-sdk@^12.0.0-rc.3":
-  version "12.0.0-rc.3"
-  resolved "https://registry.npmjs.org/@stellar/stellar-sdk/-/stellar-sdk-12.0.0-rc.3.tgz"
-  integrity sha512-FYO+F8VokXjP3Mu+OQtK0GrJWWvwf1+DL3n3aOi6M5H6EwJ6bp/yAOtfnClx6vqzzvpMbWveYABn8U9QNpcHww==
+"@stellar/stellar-sdk@^12.0.1":
+  version "12.0.1"
+  resolved "https://registry.npmjs.org/@stellar/stellar-sdk/-/stellar-sdk-12.0.1.tgz"
+  integrity sha512-0+YXUTS2LpZ+Of383hSYVpsRl9BJ3X9lHcj05ouS3VkVL9BH7w+Par8RHPkiHS6lLYn3gWRgaJauTebkamY/Jw==
   dependencies:
-    "@stellar/stellar-base" "^12.0.0-rc.1"
-    axios "^1.6.8"
+    "@stellar/stellar-base" "^12.0.0"
+    axios "^1.7.2"
     bignumber.js "^9.1.2"
     eventsource "^2.0.2"
     randombytes "^2.1.0"
@@ -2956,7 +2956,7 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-axios@^1.4.0, axios@^1.6.8:
+axios@^1.4.0, axios@^1.6.8, axios@^1.7.2:
   version "1.7.2"
   resolved "https://registry.npmjs.org/axios/-/axios-1.7.2.tgz"
   integrity sha512-2A8QhOMrbomlDuiLeK9XibIBzuHeRcqqNOHp0Cyp5EoJ1IFDh+XZH3A6BkXtv0K4gFGCI0Y4BM7B1wOEi0Rmgw==
