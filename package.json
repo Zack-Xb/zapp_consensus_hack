@@ -6,23 +6,36 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "test": "jest"
   },
   "dependencies": {
     "@circle-fin/w3s-pw-react-native-sdk": "^1.0.6",
     "@expo/metro-runtime": "~3.2.1",
     "@expo/vector-icons": "^14.0.0",
+    "@react-native-async-storage/async-storage": "1.23.1",
+    "@stellar/stellar-sdk": "^12.0.0-rc.3",
+    "@stellar/typescript-wallet-sdk": "^1.5.0",
+    "@stellar/wallet-sdk": "^0.11.2",
+    "@types/express": "^4.17.21",
     "expo": "~51.0.8",
+    "expo-crypto": "~13.0.2",
+    "expo-random": "~14.0.1",
     "expo-status-bar": "~1.12.1",
+    "jest": "^29.7.0",
+    "jest-expo": "^51.0.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.74.1",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-paper": "^5.12.3",
+    "react-native-randombytes": "^3.6.1",
     "react-native-reanimated": "~3.10.1",
     "react-native-root-toast": "^3.6.0",
     "react-native-safe-area-context": "^4.10.1",
-    "react-native-web": "~0.19.10"
+    "react-native-web": "~0.19.10",
+    "ts-jest": "^29.1.4",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
